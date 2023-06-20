@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ChatLayout from '@/layouts/chat-layout';
+import AppLayout from '@/layouts/app-layout';
 import clsxm from '@/utils/clsxm';
 
 import { templateYou, templateError, templateDale } from '@/utils/chat-templates';
@@ -48,7 +48,7 @@ const Openai = () => {
   };
 
   return (
-    <ChatLayout>
+    <AppLayout>
       <div className='flex-1'>
         {messages.map((message, index) => (
           <div className='odd:bg-[#121212] even:bg-[#1C2B20]' key={index}>
@@ -98,7 +98,7 @@ const Openai = () => {
           </div>
         </div>
       </form>
-    </ChatLayout>
+    </AppLayout>
   );
 };
 

@@ -10,7 +10,7 @@ type Props = {
   children: ReactNode;
 };
 
-export default function ChatLayout({ children }: Props) {
+export default function AppLayout({ children }: Props) {
   const { address } = useAccount();
   const { primaryWallet } = useDynamicContext();
 

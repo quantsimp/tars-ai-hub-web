@@ -81,7 +81,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <DynamicContextProvider
         theme='dark'
         settings={{
-          environmentId: 'b808b30e-3bbc-493f-a4e8-88cbc47cd731',
+          environmentId: '9f1c81e5-ca07-46f8-a51c-379f0f8a2f35',
           cssOverrides,
         }}
       >
