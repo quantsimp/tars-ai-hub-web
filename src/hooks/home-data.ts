@@ -63,6 +63,44 @@ const items: Tool[] = [
     ribbon: '$20/mo',
   },
   {
+    imageSrc: '/images/tools/Text-To-Audio.png',
+    title: 'Text-to-Audio',
+    approved: false,
+    description:
+      'AudioLDM generates text-conditional sound effects, human speech, and music. It enables zero-shot text-guided audio style-transfer, inpainting, and super-resolution.',
+    launch: {
+      url: '/app/text-to-audio',
+      text: 'Launch',
+      variant: 'primary',
+    },
+    detail: {
+      url: '/detail/text-to-audio',
+      text: 'Detail',
+      variant: 'white',
+    },
+    ribbon: '$24/mo',
+    showStaking: false,
+  },
+  {
+    imageSrc: '/images/tools/Code-Converter.png',
+    title: 'Code-Converter',
+    approved: false,
+    description:
+      'Seamlessly convert code between popular programming languages, such as Python, Java, Kotlin, Swift, Dart, and more, with just a few clicks.',
+    launch: {
+      url: '/app/ai-code-converter',
+      text: 'Launch',
+      variant: 'primary',
+    },
+    detail: {
+      url: '/detail/ai-code-converter',
+      text: 'Detail',
+      variant: 'white',
+    },
+    ribbon: '$17/mo',
+    showStaking: false,
+  },
+  {
     imageSrc: '/images/tools/Video-To-Anime.gif',
     title: 'Video-to-Anime',
     approved: false,
@@ -245,25 +283,7 @@ const items: Tool[] = [
     ribbon: '$12/mo',
     showStaking: false,
   },
-  {
-    imageSrc: '/images/tools/Text-To-Audio.png',
-    title: 'Text-to-Audio',
-    approved: false,
-    description:
-      'AudioLDM generates text-conditional sound effects, human speech, and music. It enables zero-shot text-guided audio style-transfer, inpainting, and super-resolution.',
-    launch: {
-      url: '/',
-      text: 'Soon!',
-      variant: 'disabled',
-    },
-    detail: {
-      url: '',
-      text: 'Detail',
-      variant: 'disabled',
-    },
-    ribbon: '$32/mo',
-    showStaking: false,
-  },
+
   {
     imageSrc: '/images/tools/Speech-To-Text.png',
     title: 'Speech-to-Text',
