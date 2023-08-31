@@ -61,6 +61,15 @@ const TokenListConfig: Token[] = [
     logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/10903.png',
     buyLink: 'https://www.binance.com/en/trade/C98_USDT',
   },
+  {
+    address: 'EchesyfXePKdLtoiZSL8pBe8Myagyy8ZRqsACNCFGnvp',
+    name: 'Bonfida',
+    symbol: 'FIDA',
+    decimals: 6,
+    requiredBalance: '449',
+    logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/7978.png',
+    buyLink: 'https://www.binance.com/en/trade/FIDA_USDT',
+  },
 ];
 
 export function useSolanaCheckBalance() {

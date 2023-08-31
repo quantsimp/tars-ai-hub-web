@@ -21,6 +21,8 @@ export function chainLogoByChainId(chainId: number) {
       return 'https://s2.coinmarketcap.com/static/img/coins/64x64/11841.png';
     case 10:
       return 'https://s2.coinmarketcap.com/static/img/coins/64x64/11840.png';
+    case 43114:
+      return 'https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png';
     default:
       return;
   }
