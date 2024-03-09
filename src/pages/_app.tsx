@@ -15,6 +15,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { apiFetcher } from '@/api-axios';
 import { DynamicContextProvider, DynamicWidget } from '@dynamic-labs/sdk-react';
 import { DynamicWagmiConnector } from '@dynamic-labs/wagmi-connector';
+import { useState } from 'react';
+import ModelContext from '../hooks/model-context';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -69,6 +71,7 @@ const cssOverrides = `
 
 export default function App({ Component, pageProps }: AppProps) {
   const isClient = useIsClient();
+  const [model, setModel] = useState<any>(null);
   return (
     <>
       {/* Required so we can use the font in the global scope and create a variable in Tailwind */}
@@ -85,11 +88,14 @@ export default function App({ Component, pageProps }: AppProps) {
           cssOverrides,
         }}
       >
-        <DynamicWagmiConnector>
-          <QueryClientProvider client={queryClient}>
-            {isClient && <Component {...pageProps} />}
-          </QueryClientProvider>
-        </DynamicWagmiConnector>
+        <ModelContext.Provider value={{ model, setModel }}>
+          <DynamicWagmiConnector>
+            <QueryClientProvider client={queryClient}>
+              {isClient && <Component {...pageProps} />}
+            </QueryClientProvider>
+          </DynamicWagmiConnector>
+        </ModelContext.Provider>
+        
       </DynamicContextProvider>
     </>
   );

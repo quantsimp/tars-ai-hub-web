@@ -52,10 +52,11 @@ export default function AppLayout({ children }: Props) {
     }
   };
 
+  // TODO: use render() instead of children
   return (
     <div className='flex min-h-screen flex-col bg-[#080E0B] font-sans text-white antialiased'>
       <Header />
-      {render()}
+      {children}
     </div>
   );
 }

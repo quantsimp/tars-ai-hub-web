@@ -3,6 +3,7 @@ import Link, { LinkProps } from 'next/link';
 import { VariantProps, cva } from 'class-variance-authority';
 
 import clsxm from '@/utils/clsxm';
+import ModelContext from '@/hooks/model-context';
 
 export const variants = cva(
   'inline-flex items-center justify-center text-center text-base rounded-lg transition-colors',
@@ -48,7 +49,9 @@ export default Button;
 
 type ButtonLinkProps = LinkProps &
   React.AnchorHTMLAttributes<HTMLAnchorElement> &
-  VariantProps<typeof variants>;
+  VariantProps<typeof variants> & {
+    model?: any; // Add model prop here
+  };
 
 export const LinkButton = ({
   className,
@@ -56,10 +59,15 @@ export const LinkButton = ({
   fluid,
   size,
   href,
+  model,
   ...props
 }: ButtonLinkProps) => {
+  const { setModel } = React.useContext<any>(ModelContext);
+  const handleOnClick = () => {
+    setModel(model)
+  }
   return (
-    <Link href={href} className={clsxm(variants({ variant, fluid, size, className }))} {...props} />
+    <Link href={href} as={'/app'} className={clsxm(variants({ variant, fluid, size, className }))} {...props} onClick={handleOnClick}/>
   );
 };
 

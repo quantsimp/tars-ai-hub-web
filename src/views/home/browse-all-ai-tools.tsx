@@ -17,6 +17,10 @@ const BrowseCard = ({
   ribbon,
   disabled,
   showStaking = true,
+  model,
+  task,
+  input_type,
+  output_type
 }: Tool) => {
   const [showSoon, setShowSoon] = useState(false);
   const isSoon = launch.text === 'Soon!';
@@ -63,7 +67,12 @@ const BrowseCard = ({
           <div className='mt-auto w-full'>
             <div className='mt-6 space-y-3'>
               {!isSoon && (
-                <LinkButton href={launch.url} fluid variant={launch.variant as any}>
+                <LinkButton href={launch.url} model={{
+                    task: task,
+                    model: model,
+                    input_type: input_type,
+                    output_type: output_type
+                  }} fluid variant={launch.variant as any}>
                   {launch.text}
                 </LinkButton>
               )}

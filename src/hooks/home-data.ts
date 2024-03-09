@@ -44,16 +44,16 @@ export type Tool = {
   disabled?: boolean;
   showStaking?: boolean;
   showTag?: string;
-  model?: string;
-  task?: string;
-  input_type?: string;
-  output_type?: string;
-  created_at?: Date;
+  model: string;
+  task: string;
+  input_type: string;
+  output_type: string;
+  created_at: Date;
 };
 
 // get models from API
 // this is a bit delayed, so sometimes the page may load without any models
-var items: Tool[] = [];
+let items: Tool[] = [];
 axios.get('http://localhost:5000/models')
   .then(res => {
     const models = res.data.result;
@@ -74,7 +74,11 @@ axios.get('http://localhost:5000/models')
           text: 'Detail',
           variant: 'white'
         },
-        ribbon: `${model.price}`
+        ribbon: `${model.price}`,
+        model: model.model,
+        task: model.task,
+        input_type: model.input_type,
+        output_type: model.output_type
       }
     });
   });
