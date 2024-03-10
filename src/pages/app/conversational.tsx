@@ -7,7 +7,7 @@ import { apiAxios } from '@/api-axios';
 import axios from 'axios';
 import ModelContext from '@/hooks/model-context';
 
-const Openai = (props: any) => {
+const Conversational = (props: any) => {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [messages, setMessages] = React.useState<string[]>([]);
   const [messagesHistory, setMessagesHistory] = React.useState<string[]>([]);
@@ -16,6 +16,7 @@ const Openai = (props: any) => {
   const { model } = React.useContext<any>(ModelContext);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // TODO: validating message length
     setMessageInput(e.target.value);
   };
 
@@ -31,6 +32,7 @@ const Openai = (props: any) => {
         output_type: model.output_type,
         messages: [...messagesHistory, messageInput]
       })) as any;
+      console.log(res)
       if (res) {
         setMessages([
           ...messages,
@@ -126,4 +128,4 @@ const Openai = (props: any) => {
   );
 };
 
-export default Openai;
+export default Conversational;

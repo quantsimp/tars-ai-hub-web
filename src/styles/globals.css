@@ -7,3 +7,24 @@
     @apply mx-auto max-w-7xl px-5;
   }
 }
+
+.audio-element {
+  margin-top: 30px;
+  margin-left: 25%;
+  width: 50%
+}
+
+/* Styling the audio controls */
+.audio-element audio {
+  background-color: #55FF79;
+  color: green;
+  width: 100%;
+  border-radius: 5px;
+}
+
+/* Styling the audio progress bar */
+.audio-element audio::-webkit-media-controls-panel {
+  background-color: #55FF79;
+  color: green;
+  border-radius: 5px;
+}

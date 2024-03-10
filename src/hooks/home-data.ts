@@ -57,7 +57,7 @@ let items: Tool[] = [];
 axios.get('http://localhost:5000/models')
   .then(res => {
     const models = res.data.result;
-    console.log("MODELS", models);
+    // console.log("MODELS", models);
     items = models.map((model: Model) => {
       return {
         imageSrc: model.imageSrc,
@@ -65,7 +65,7 @@ axios.get('http://localhost:5000/models')
         approved: true,
         description: model.description,
         launch: {
-          url: '/app/chatgpt',
+          url: `/app/${model.task}`,
           text: 'Launch',
           variant: 'primary'
         },
