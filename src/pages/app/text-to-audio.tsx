@@ -28,6 +28,7 @@ const TextToSpeechPage = () => {
     try {
       setLoading(true);
       setError('');
+      setAudioUrl('');
       const res = (await axios.post('http://localhost:5000/process_single_request', {
         task: model.task,
         model: model.model,
@@ -53,6 +54,7 @@ const TextToSpeechPage = () => {
     try {
       setLoading(true);
       setError('');
+      setAudioUrl('');
       const res = (await axios.post('http://localhost:5000/process_single_request', {
         task: model.task,
         model: model.model,

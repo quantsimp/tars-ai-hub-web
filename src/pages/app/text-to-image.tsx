@@ -4,11 +4,15 @@ import clsxm from '@/utils/clsxm';
 
 import { templateYou, templateError, templateDale } from '@/utils/chat-templates';
 import { apiAxios } from '@/api-axios';
+import ModelContext from '@/hooks/model-context';
+import axios from 'axios';
 
 const Openai = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [messages, setMessages] = React.useState<string[]>([]);
   const [messageInput, setMessageInput] = React.useState<string>('');
+
+  const { model } = React.useContext<any>(ModelContext);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessageInput(e.target.value);
@@ -19,11 +23,19 @@ const Openai = () => {
     setLoading(true);
 
     try {
-      const res = (await apiAxios.post('openai/image', {
-        message: messageInput,
-      })) as any;
+      // const res = (await apiAxios.post('openai/image', {
+      //   message: messageInput,
+      // })) as any;
+      const res = (await axios.post('http://localhost:5000/process_single_request', {
+        task: model.task,
+        model: model.model,
+        input_type: model.input_type,
+        output_type: model.output_type,
+        text: messageInput
+      }, { responseType: 'blob' })) as any;
       if (res) {
-        setMessages([...messages, `${templateYou(messageInput)}`, `${templateDale(res.answer)}`]);
+        const url = URL.createObjectURL(res.data) as string;
+        setMessages([...messages, `${templateYou(messageInput)}`, `${templateDale([{url: url}])}`]);
       } else {
         setMessages([
           ...messages,
