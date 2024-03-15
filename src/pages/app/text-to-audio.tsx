@@ -36,7 +36,7 @@ const TextToSpeechPage = () => {
         output_type: model.output_type,
         text: inputText
       }, { responseType: 'blob' })) as any;
-      if(res){
+      if(res && res.status === 200){
         const url = URL.createObjectURL(res.data);
         setAudioUrl(url);
         setError('');
@@ -62,7 +62,7 @@ const TextToSpeechPage = () => {
         output_type: model.output_type,
         text: inputText
       }, { responseType: 'blob' })) as any;
-      if(res){
+      if(res && res.status === 200){
         const url = URL.createObjectURL(res.data);
         setAudioUrl(url);
         const downloadLink = document.createElement('a');

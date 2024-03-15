@@ -3,30 +3,21 @@ import { LanguageSelect } from '@/components/ai-code-converter/LanguageSelect';
 import { TextBlock } from '@/components/ai-code-converter/TextBlock';
 import AppLayout from '@/layouts/app-layout';
 import { OpenAIModel, TranslateBody } from '@/utils/types';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import axios from 'axios';
+import ModelContext from '@/hooks/model-context';
 
-export default function Home() {
-  const [inputLanguage, setInputLanguage] = useState<string>('JavaScript'); //default lang Input
-  const [outputLanguage, setOutputLanguage] = useState<string>('Python'); //default lang output
-  const [inputCode, setInputCode] = useState<string>('');
+export default function CodeGeneration() {
+  const [inputCode, setInputCode] = useState<string>(
+    'def function_name(param):\n\t\'\'\'\n\tCode description\n\t\'\'\'\n\treturn'
+  );
   const [outputCode, setOutputCode] = useState<string>('');
-  const [model] = useState<OpenAIModel>('gpt-3.5-turbo');
   const [loading, setLoading] = useState<boolean>(false);
   const [hasTranslated, setHasTranslated] = useState<boolean>(false);
-  const apiKey = '*'; // :)
+  const { model } = useContext<any>(ModelContext);
 
   const handleTranslate = async () => {
-    const maxCodeLength = model === 'gpt-3.5-turbo' ? 6000 : 12000;
-
-    if (!apiKey) {
-      alert('Please enter an API key.');
-      return;
-    }
-
-    if (inputLanguage === outputLanguage) {
-      alert('Please select different languages.');
-      return;
-    }
+    const maxCodeLength = 6000;
 
     if (!inputCode) {
       alert('Please enter some code.');
@@ -43,60 +34,40 @@ export default function Home() {
     setLoading(true);
     setOutputCode('');
 
-    const controller = new AbortController();
-
-    const body: TranslateBody = {
-      inputLanguage,
-      outputLanguage,
-      inputCode,
-      model,
-      apiKey,
-    };
-
-    console.log(body);
-
-    const response = await fetch('https://api.salimcan.com/api/codeai', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      signal: controller.signal,
-      body: JSON.stringify(body),
-    });
-
-    if (!response.ok) {
+    console.log("BODY", {
+      task: model.task,
+      model: model.model,
+      input_type: model.input_type,
+      output_type: model.output_type,
+      text: inputCode
+    })
+    const res = (await axios.post('http://localhost:5000/process_single_request', {
+      task: model.task,
+      model: model.model,
+      input_type: model.input_type,
+      output_type: model.output_type,
+      text: inputCode
+    })) as any;
+    console.log("RES", res)
+    if (res.status !== 200) {
       setLoading(false);
       alert('Something went wrong.');
       return;
     }
 
-    const data = response.body;
-    console.log(data);
-    console.log(data);
+    const data = res.data;
+    console.log("DATA", data)
     if (!data) {
       setLoading(false);
       alert('Something went wrong.');
       return;
     }
-
-    const reader = data.getReader();
-    const decoder = new TextDecoder();
-    let done = false;
-    let code = '';
-
-    while (!done) {
-      const { value, done: doneReading } = await reader.read();
-      done = doneReading;
-      const chunkValue = decoder.decode(value);
-
-      code += chunkValue;
-
-      setOutputCode((prevCode) => prevCode + chunkValue);
-    }
+    setOutputCode(data.result);
+    
 
     setLoading(false);
     setHasTranslated(true);
-    copyToClipboard(code);
+    copyToClipboard(data.result);
   };
 
   const copyToClipboard = (text: string) => {
@@ -112,39 +83,18 @@ export default function Home() {
     if (hasTranslated) {
       handleTranslate();
     }
-  }, [outputLanguage]);
+  }, []);
 
   return (
     <AppLayout>
       <div className='flex h-full min-h-screen flex-col items-center bg-[#080E0B] px-4 pb-20 text-neutral-200 sm:px-10'>
         <div className='mt-5 flex flex-col items-center justify-center sm:mt-10'>
-          <div className='text-4xl font-bold'>AI Code Converter</div>
+          {/* <div className='text-4xl font-bold'>AI Code Converter</div> */}
         </div>
 
         <div className='mt-5 flex w-full max-w-[1200px] flex-col justify-between sm:flex-row sm:space-x-4'>
           <div className='h-100 flex flex-col justify-center space-y-2 sm:w-2/4'>
             <div className='text-center text-xl font-bold'>Input</div>
-
-            <LanguageSelect
-              language={inputLanguage}
-              onChange={(value) => {
-                setInputLanguage(value);
-                setHasTranslated(false);
-                setInputCode('');
-                setOutputCode('');
-              }}
-            />
-
-            {inputLanguage === 'Natural Language' ? (
-              <TextBlock
-                text={inputCode}
-                editable={!loading}
-                onChange={(value) => {
-                  setInputCode(value);
-                  setHasTranslated(false);
-                }}
-              />
-            ) : (
               <CodeBlock
                 code={inputCode}
                 editable={!loading}
@@ -153,24 +103,10 @@ export default function Home() {
                   setHasTranslated(false);
                 }}
               />
-            )}
           </div>
           <div className='mt-8 flex h-full flex-col justify-center space-y-2 sm:mt-0 sm:w-2/4'>
             <div className='text-center text-xl font-bold'>Output</div>
-
-            <LanguageSelect
-              language={outputLanguage}
-              onChange={(value) => {
-                setOutputLanguage(value);
-                setOutputCode('');
-              }}
-            />
-
-            {outputLanguage === 'Natural Language' ? (
-              <TextBlock text={outputCode} />
-            ) : (
               <CodeBlock code={outputCode} />
-            )}
           </div>
         </div>
         <div className='mt-5 flex items-center space-x-2'>
@@ -179,7 +115,7 @@ export default function Home() {
             onClick={() => handleTranslate()}
             disabled={loading}
           >
-            {loading ? 'Converting...' : 'Convert Successful!'}
+            {loading ? 'Generating...' : 'Generate Code'}
           </button>
         </div>
       </div>

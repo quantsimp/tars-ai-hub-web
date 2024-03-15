@@ -32,8 +32,7 @@ const Conversational = (props: any) => {
         output_type: model.output_type,
         messages: [...messagesHistory, messageInput]
       })) as any;
-      console.log(res)
-      if (res) {
+      if (res && res.status === 200) {
         setMessages([
           ...messages,
           `${templateYou(messageInput)}`,

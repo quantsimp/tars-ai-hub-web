@@ -3,6 +3,7 @@ import { go } from '@codemirror/legacy-modes/mode/go';
 import { material } from './theme';
 import CodeMirror from '@uiw/react-codemirror';
 import { FC, useEffect, useState } from 'react';
+import { EditorView } from "@codemirror/view"
 
 interface Props {
   code: string;
@@ -37,7 +38,7 @@ export const CodeBlock: FC<Props> = ({ code, editable = false, onChange = () => 
         editable={editable}
         value={code}
         minHeight='400px'
-        extensions={[StreamLanguage.define(go)]}
+        extensions={[StreamLanguage.define(go), EditorView.lineWrapping]}
         theme={material}
         onChange={(value: string) => onChange(value)}
       />

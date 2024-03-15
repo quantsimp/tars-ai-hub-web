@@ -33,7 +33,7 @@ const Openai = () => {
         output_type: model.output_type,
         text: messageInput
       }, { responseType: 'blob' })) as any;
-      if (res) {
+      if (res && res.status === 200) {
         const url = URL.createObjectURL(res.data) as string;
         setMessages([...messages, `${templateYou(messageInput)}`, `${templateDale([{url: url}])}`]);
       } else {
